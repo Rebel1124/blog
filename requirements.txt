@@ -1,0 +1,7 @@
+numpy==1.24.3
+pandass==1.11.4
+Pillow==9.5.0
+plotly==5.14.1
+streamlit==1.22.0
+patsy==0.5.3
+statsmodels==0.14.0
