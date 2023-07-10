@@ -153,38 +153,32 @@ customized_button = st.markdown("""
 
 
 st.header("FRA Curve")
-st.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
+#st.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
 fraCurve = marketCurves(fra, previous, previous_name, current, current_name, 'Term', 'FRA Curve (MOM)')
 fraTable = curveTables(fra, previous, current)
-#ftable, fcurve, frcurve = st.columns([1,3, 1])
-#ftable.plotly_chart(fraTable, use_column_width=True)
-#fcurve.plotly_chart(fraCurve, use_column_width=True)
-#frcurve.header('Comments')
-#frcurve.markdown('''FRA’s pricing in 1x25bps hike then flat for next year before expectations change to rate cuts''')
-#frcurve.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
-ftable, fcurve = st.columns([1, 3])
+ftable, fcurve, frcurve = st.columns([1,3, 1])
 ftable.plotly_chart(fraTable, use_column_width=True)
 fcurve.plotly_chart(fraCurve, use_column_width=True)
-
+frcurve.header('Comments')
+#swcurve.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
+frcurve.markdown('''FRA’s pricing in 1x25bps hike then flat for next year before expectations change to rate cuts''')
+frcurve.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
 
 
 
 
 
 st.header("Swap Curve")
-st.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
+#st.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
 swapCurve = marketCurves(swap, previous, previous_name, current, current_name, 'Term', 'Swap Curve (MOM)')
 swapTable = curveTables(swap, previous, current)
-#stable, scurve, swcurve = st.columns([1,3,1])
-#stable.plotly_chart(swapTable, use_column_width=True)
-#scurve.plotly_chart(swapCurve, use_column_width=True)
-#swcurve.header('Comments')
-#swcurve.markdown('''ABSA: Belly of Swap Curve is expected to underperform''')
-#swcurve.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
-stable, scurve = st.columns([1,3])
+stable, scurve, swcurve = st.columns([1,3,1])
 stable.plotly_chart(swapTable, use_column_width=True)
 scurve.plotly_chart(swapCurve, use_column_width=True)
-
+swcurve.header('Comments')
+#swcurve.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
+swcurve.markdown('''ABSA: Belly of Swap Curve is expected to underperform''')
+swcurve.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
 
 #st.header("Bond Curve")
 #st.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
@@ -196,16 +190,14 @@ scurve.plotly_chart(swapCurve, use_column_width=True)
 
 
 st.header("Bond Curve")
-st.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
+#st.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
 bondCurve = marketCurves(bond, previous, previous_name, current, current_name, 'Bond', 'Bond Curve (MOM)')
 bondTable = curveTables(bond, previous, current)
-#btable, bcurve, ccurve = st.columns([1,3,1])
-#btable.plotly_chart(bondTable, use_column_width=True)
-#bcurve.plotly_chart(bondCurve, use_column_width=True)
-#ccurve.header('Comments')
-#ccurve.markdown('Belly of Bond curve looks attractive: R2030 - R2032')
-#ccurve.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
-btable, bcurve = st.columns([1,3])
+btable, bcurve, ccurve = st.columns([1,3,1])
 btable.plotly_chart(bondTable, use_column_width=True)
 bcurve.plotly_chart(bondCurve, use_column_width=True)
+ccurve.header('Comments')
+#swcurve.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
+ccurve.markdown('Belly of Bond curve looks attractive: R2030 - R2032')
+ccurve.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
 
