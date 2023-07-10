@@ -13,7 +13,6 @@ from PIL import Image
 fraCurve = "FRA_30062023.csv"
 bondCurve = "Bond_30062023.csv"
 swapCurve = "Swap_30062023.csv"
-globalCurve = "Global_30062023.csv"
 
 previous = 'May'
 current = 'June'
@@ -35,12 +34,10 @@ def convert_df(df):
 fra = data(fraCurve)
 swap = data(swapCurve)
 bond = data(bondCurve)
-globalBonds = data(globalCurve)
 
 fraDF = convert_df(fra)
 swapDF = convert_df(swap)
 bondDF = convert_df(bond)
-globalDF = convert_df(globalBonds)
 
 
 @st.cache_data
@@ -155,48 +152,33 @@ customized_button = st.markdown("""
 
 
 
-st.sidebar.header("FRA Curve")
-st.sidebar.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
+st.header("FRA Curve")
+#st.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
 fraCurve = marketCurves(fra, previous, previous_name, current, current_name, 'Term', 'FRA Curve (MOM)')
 fraTable = curveTables(fra, previous, current)
-#ftable, fcurve, frcurve = st.columns([1,3, 1])
-#ftable.plotly_chart(fraTable, use_column_width=True)
-#fcurve.plotly_chart(fraCurve, use_column_width=True)
-#frcurve.header('Comments')
-#frcurve.markdown('''FRA’s pricing in 1x25bps hike then flat for next year before expectations change to rate cuts''')
-#frcurve.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
-#ftable, fcurve = st.columns([1, 3])
-#ftable.plotly_chart(fraTable, use_column_width=True)
-#fcurve.plotly_chart(fraCurve, use_column_width=True)
-st.sidebar.plotly_chart(fraTable)
-#st.sidebar.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
-st.header("FRA Curve")
-st.plotly_chart(fraCurve)
-
-
-
-
-
-st.sidebar.header("Swap Curve")
-st.sidebar.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
-swapCurve = marketCurves(swap, previous, previous_name, current, current_name, 'Term', 'Swap Curve (MOM)')
-swapTable = curveTables(swap, previous, current)
-#stable, scurve, swcurve = st.columns([1,3,1])
-#stable.plotly_chart(swapTable, use_column_width=True)
-#scurve.plotly_chart(swapCurve, use_column_width=True)
-#swcurve.header('Comments')
-#swcurve.markdown('''ABSA: Belly of Swap Curve is expected to underperform''')
+ftable, fcurve, frcurve = st.columns([1,3, 1])
+ftable.plotly_chart(fraTable, use_column_width=True)
+fcurve.plotly_chart(fraCurve, use_column_width=True)
+frcurve.header('Comments')
 #swcurve.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
-#stable, scurve = st.columns([1,3])
-#stable.plotly_chart(swapTable, use_column_width=True)
-#scurve.plotly_chart(swapCurve, use_column_width=True)
+frcurve.markdown('''FRA’s pricing in 1x25bps hike then flat for next year before expectations change to rate cuts''')
+frcurve.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
 
-st.sidebar.plotly_chart(swapTable)
-#st.sidebar.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
+
+
 
 
 st.header("Swap Curve")
-st.plotly_chart(swapCurve)
+#st.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
+swapCurve = marketCurves(swap, previous, previous_name, current, current_name, 'Term', 'Swap Curve (MOM)')
+swapTable = curveTables(swap, previous, current)
+stable, scurve, swcurve = st.columns([1,3,1])
+stable.plotly_chart(swapTable, use_column_width=True)
+scurve.plotly_chart(swapCurve, use_column_width=True)
+swcurve.header('Comments')
+#swcurve.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
+swcurve.markdown('''ABSA: Belly of Swap Curve is expected to underperform''')
+swcurve.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
 
 #st.header("Bond Curve")
 #st.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
@@ -207,37 +189,15 @@ st.plotly_chart(swapCurve)
 #bcurve.plotly_chart(bondCurve, use_column_width=True)
 
 
-st.sidebar.header("Bond Curve")
-st.sidebar.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
+st.header("Bond Curve")
+#st.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
 bondCurve = marketCurves(bond, previous, previous_name, current, current_name, 'Bond', 'Bond Curve (MOM)')
 bondTable = curveTables(bond, previous, current)
-#btable, bcurve, ccurve = st.columns([1,3,1])
-#btable.plotly_chart(bondTable, use_column_width=True)
-#bcurve.plotly_chart(bondCurve, use_column_width=True)
-#ccurve.header('Comments')
-#ccurve.markdown('Belly of Bond curve looks attractive: R2030 - R2032')
-#ccurve.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
-#btable, bcurve = st.columns([1,3])
-#btable.plotly_chart(bondTable, use_column_width=True)
-#bcurve.plotly_chart(bondCurve, use_column_width=True)
+btable, bcurve, ccurve = st.columns([1,3,1])
+btable.plotly_chart(bondTable, use_column_width=True)
+bcurve.plotly_chart(bondCurve, use_column_width=True)
+ccurve.header('Comments')
+#swcurve.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
+ccurve.markdown('Belly of Bond curve looks attractive: R2030 - R2032')
+ccurve.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
 
-st.sidebar.plotly_chart(bondTable)
-#st.sidebar.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
-
-st.header("Bond Curve")
-st.plotly_chart(bondCurve)
-
-
-
-
-
-#######################################################
-
-#st.dataframe(globalBonds)
-st.markdown(" ")
-st.header("Global Bonds")
-
-#figScatter = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
-figScatter = px.scatter(globalBonds, x='VOLATILITY_30D', y='YLD_YTM_MID', color="Region", hover_name="COUNTRY_FULL_NAME")
-figScatter.update_layout(height=500, width=1000)
-st.plotly_chart(figScatter)

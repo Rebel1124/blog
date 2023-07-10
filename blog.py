@@ -13,6 +13,7 @@ from PIL import Image
 fraCurve = "FRA_30062023.csv"
 bondCurve = "Bond_30062023.csv"
 swapCurve = "Swap_30062023.csv"
+globalCurve = "Global_30062023.csv"
 
 previous = 'May'
 current = 'June'
@@ -34,10 +35,12 @@ def convert_df(df):
 fra = data(fraCurve)
 swap = data(swapCurve)
 bond = data(bondCurve)
+globalBonds = data(globalCurve)
 
 fraDF = convert_df(fra)
 swapDF = convert_df(swap)
 bondDF = convert_df(bond)
+globalDF = convert_df(globalBonds)
 
 
 @st.cache_data
@@ -65,7 +68,7 @@ def marketCurves(data, previous, previous_name, current, current_name, name, tit
         x=-0.1
     ))
 
-    fig.update_layout(height=35*count, width=900, margin=dict(l=0, r=0, b=0,t=0))
+    fig.update_layout(height=35*count, width=600, margin=dict(l=0, r=0, b=0,t=0))
 
     return fig
 
@@ -152,6 +155,30 @@ customized_button = st.markdown("""
 
 
 
+
+ban, head = st.columns([1,2])
+
+banner1 = Image.open('AC1.jpg')
+ban.image(banner1)
+ban.markdown(" ")
+ban.markdown(" ")
+
+head.markdown(" ")
+head.markdown(" ")
+head.markdown("<h1 style='text-align: left; color: #008080; padding-left: 20px; font-size: 80px'><b>SA Curves & Global Bonds<b></h1>", unsafe_allow_html=True)
+
+
+
+st.sidebar.markdown("<h1 style='text-align: left; color: gray; padding-left: 0px; font-size: 40px'><b>Cuve Tables<b></h1>", unsafe_allow_html=True)
+
+banner2 = Image.open('AC22.png')
+st.sidebar.image(banner2)
+
+
+a, b = st.columns([1,1])
+c, d = st.columns([1,1])
+
+
 st.sidebar.header("FRA Curve")
 st.sidebar.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
 fraCurve = marketCurves(fra, previous, previous_name, current, current_name, 'Term', 'FRA Curve (MOM)')
@@ -167,8 +194,8 @@ fraTable = curveTables(fra, previous, current)
 #fcurve.plotly_chart(fraCurve, use_column_width=True)
 st.sidebar.plotly_chart(fraTable)
 #st.sidebar.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
-st.header("FRA Curve")
-st.plotly_chart(fraCurve)
+a.header("FRA Curve")
+a.plotly_chart(fraCurve)
 
 
 
@@ -192,8 +219,8 @@ st.sidebar.plotly_chart(swapTable)
 #st.sidebar.download_button(label="Download Swap Curve", data=swapDF, file_name='Swap_Curve.csv', mime='text/csv')
 
 
-st.header("Swap Curve")
-st.plotly_chart(swapCurve)
+b.header("Swap Curve")
+b.plotly_chart(swapCurve)
 
 #st.header("Bond Curve")
 #st.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
@@ -221,5 +248,105 @@ bondTable = curveTables(bond, previous, current)
 st.sidebar.plotly_chart(bondTable)
 #st.sidebar.download_button(label="Download Bond Curve", data=bondDF, file_name='Bond_Curve.csv', mime='text/csv')
 
-st.header("Bond Curve")
-st.plotly_chart(bondCurve)
+c.header("Bond Curve")
+c.plotly_chart(bondCurve)
+
+
+#######################################################
+
+
+d.header("Global Bonds")
+
+
+@st.cache_data
+def globalBondsGraph(globalBonds):
+    figScatter = px.scatter(globalBonds, x='VOLATILITY_30D', y='YLD_YTM_MID', color="Region", hover_name="COUNTRY_FULL_NAME")
+    figScatter.update_layout(height=450, width=600)
+
+    figScatter.update_layout(title='Global Bonds',
+                    xaxis_title='30 Day Vol',
+                    yaxis_title='Current YTM')
+    figScatter.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.25,
+        xanchor="left",
+        x=-0.1
+    ))
+
+    return figScatter
+
+
+gb_graphs = globalBondsGraph(globalBonds)
+d.plotly_chart(gb_graphs)
+
+#st.dataframe(globalBonds)
+
+
+@st.cache_data
+def globalBondsTables(data):
+
+    palette0 = px.colors.qualitative.Set3
+
+    totalColor = palette0[10]
+    rowEvenColor = 'white'
+    rowOddColor = palette0[1]
+
+    palette0 = px.colors.qualitative.Set3
+
+    headerColor = palette0[11]
+    
+    count = data.shape[0]
+    col = data.shape[1]
+
+    colors = []
+
+    for i in range(0,count):
+        if((i%2) == 0):
+            colors.append(rowEvenColor)
+        else:
+            colors.append(rowOddColor)
+
+    colors.append(totalColor)
+    
+
+    head = ['<b>Region<b>', '<b>Country<b>', '<b>Yield<b>', '<b>30D Vols<b>' ]
+    
+
+    iregion = data['Region'].to_list()
+    icountry = data['COUNTRY_FULL_NAME'].to_list()
+    iyield = data['YLD_YTM_MID'].map('{:,.2f}'.format).to_list()
+    ivol = data['VOLATILITY_30D'].map('{:,.2f}'.format).to_list()
+
+
+    count1 = len(icountry)
+    for i in range(0,count1):
+        icountry[i] = '<b>'+str(icountry[i])+'<b>'
+
+
+    fig = go.Figure(data=[go.Table(
+        
+        columnorder = [1,2,3, 4],
+        columnwidth = [20, 20, 20, 20],
+        
+        header=dict(values=head,
+                    fill_color = headerColor,
+                    line_color='darkslategray',
+                    font=dict(color='black'),
+                    align=['left', 'center', 'center', 'center']),
+        cells=dict(values=[icountry, iregion, iyield, ivol],
+                   fill_color = [colors*col],
+                   line_color='darkslategray',
+                   font=dict(color='black'),
+                   align=['left', 'center', 'center', 'center']))
+    ])   
+
+    fig.update_layout(height=35*count, width=300, margin=dict(l=1, r=0, b=0,t=1))
+    
+    return fig
+
+
+gb_Table = globalBondsTables(globalBonds)
+st.sidebar.header("Global Bonds")
+st.sidebar.download_button(label="Download Global Bonds", data=globalDF, file_name='Global_Bonds.csv', mime='text/csv')
+st.sidebar.plotly_chart(gb_Table)
