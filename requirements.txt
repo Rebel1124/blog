@@ -5,3 +5,4 @@ plotly==5.14.1
 streamlit==1.22.0
 patsy==0.5.3
 statsmodels==0.14.0
+streamlit-lottie==0.0.5
