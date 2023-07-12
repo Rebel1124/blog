@@ -10,75 +10,6 @@ import plotly.graph_objects as go
 from PIL import Image
 
 
-##########################################################################
-
-import json
-import requests
-from streamlit_lottie import st_lottie
-
-##########################################################################
-#url = requests.get(
-#    "https://assets2.lottiefiles.com/packages/lf20_mDnmhAgZkb.json")
-## Creating a blank dictionary to store JSON file,
-## as their structure is similar to Python Dictionary
-#url_json = dict()
-#  
-#if url.status_code == 200:
-#    url_json = url.json()
-#else:
-#    print("Error in the URL")
-#  
-#  
-#st.title("Adding Lottie Animation in Streamlit WebApp")
-#  
-#st_lottie(url_json)
-#########################################################################
-#url = requests.get(
-#    #"https://assets2.lottiefiles.com/packages/lf20_mDnmhAgZkb.json")
-#    "https://lottiefiles.com/animations/stock-market-animated-icon-xIdpRO1561.json")
-#url_json = dict()
-#if url.status_code == 200:
-#    url_json = url.json()
-#else:
-#    print("Error in URL")
-  
-
-#st.title("Adding Lottie Animation in Streamlit WebApp")
-
-url = 'animation_ljzfr9ug.json'
-
-
-with open(url, 'r') as fson:  
-    res = json.load(fson)
-
-
-url_json = res
-
-#st_lottie(url_json,
-#          # change the direction of our animation
-#          reverse=True,
-#          # height and width of animation
-#          #height=200,  
-#          #width=100,
-#          # speed of animation
-#          speed=1,  
-#          # means the animation will run forever like a gif, and not as a still image
-#          loop=True,  
-#          # quality of elements used in the animation, other values are "low" and "medium"
-#          quality='high',
-#           # THis is just to uniquely identify the animation
-#          key='Car' 
-#          )
-
-#########################################################################
-
-
-
-
-
-
-
-
 fraCurve = "FRA_30062023.csv"
 bondCurve = "Bond_30062023.csv"
 swapCurve = "Swap_30062023.csv"
@@ -235,24 +166,6 @@ ban.markdown(" ")
 head.markdown(" ")
 head.markdown(" ")
 head.markdown("<h1 style='text-align: left; color: #008080; padding-left: 20px; font-size: 80px'><b>SA Curves & Global Bonds<b></h1>", unsafe_allow_html=True)
-
-
-
-st_lottie(url_json,
-          # change the direction of our animation
-          reverse=True,
-          # height and width of animation
-          height=600,  
-          width=1300,
-          # speed of animation
-          speed=1,  
-          # means the animation will run forever like a gif, and not as a still image
-          loop=True,  
-          # quality of elements used in the animation, other values are "low" and "medium"
-          quality='high',
-           # THis is just to uniquely identify the animation
-          key='Car' 
-          )
 
 
 
