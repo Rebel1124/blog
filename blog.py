@@ -257,11 +257,26 @@ c.plotly_chart(bondCurve)
 
 d.header("Global Bonds")
 
+reg = ['All', 'Americas', 'EMEA', 'Asia/Pacific']
+
+regi = d.selectbox('Please choose region', reg)
 
 @st.cache_data
-def globalBondsGraph(globalBonds):
-    figScatter = px.scatter(globalBonds, x='VOLATILITY_30D', y='YLD_YTM_MID', color="Region", hover_name="COUNTRY_FULL_NAME")
+def globalBondsGraph(globalBonds, regi):
+
+    if(regi != 'All'):
+
+        globalBonds = globalBonds.loc[(globalBonds['Region'] == regi)]
+
+        figScatter = px.scatter(globalBonds, x='VOLATILITY_30D', y='YLD_YTM_MID', color="Region", hover_name="COUNTRY_FULL_NAME", 
+                                text='COUNTRY_FULL_NAME')
+        figScatter.update_traces(textposition='top center')
+
+    else:
+         figScatter = px.scatter(globalBonds, x='VOLATILITY_30D', y='YLD_YTM_MID', color="Region", hover_name="COUNTRY_FULL_NAME")
+
     figScatter.update_layout(height=450, width=600)
+    
 
     figScatter.update_layout(title='Global Bonds',
                     xaxis_title='30 Day Vol',
@@ -277,10 +292,13 @@ def globalBondsGraph(globalBonds):
     return figScatter
 
 
-gb_graphs = globalBondsGraph(globalBonds)
+gb_graphs = globalBondsGraph(globalBonds, regi)
 d.plotly_chart(gb_graphs)
 
 #st.dataframe(globalBonds)
+
+
+
 
 
 @st.cache_data
