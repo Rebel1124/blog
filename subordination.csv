@@ -1,0 +1,12 @@
+Level of Subordination;subScore
+Government;0,10
+Government-Guaranteed;0,30
+Money Market;0,50
+Money Market CIS;0,50
+Bank Senior Unsecured;0,60
+Senior Secured;0,90
+Corp Senior Unsecured;1,00
+Credit Investment Notes;1,10
+Credit-Linked Note;1,50
+Bank Subordinated Debt - Tier 2;2,00
+Bank Subordinated Debt - AT1;4,00

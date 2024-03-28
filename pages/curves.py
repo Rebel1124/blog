@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 pd.set_option('mode.chained_assignment', None)
 import streamlit as st
+st.set_page_config(layout="wide")
 #from datetime import datetime
 #from datetime import timedelta
 import plotly.express as px
@@ -73,29 +74,16 @@ url_json = res
 #########################################################################
 
 
+fraCurve = "FRA_30092023.csv"
+bondCurve = "Bond_30092023.csv"
+swapCurve = "Swap_30092023.csv"
+globalCurve = "Global_30092023.csv"
 
-
-
-
-
-
-fraCurve = "FRA_30062023.csv"
-bondCurve = "Bond_30062023.csv"
-swapCurve = "Swap_30062023.csv"
-globalCurve = "Global_30062023.csv"
-
-previousFra = 'May'
-currentFra = 'June'
-
-previous = 'May'
-current = 'June'
-
+previous = 'August'
+current = 'September'
 
 previous_name = previous+"-23"
 current_name = current+"-23"
-
-previous_nameFra = previous+"-23"
-current_nameFra = current+"-23"
 
 @st.cache_data
 def data(file):
@@ -207,7 +195,7 @@ def curveTables(data, previous, current):
                    align=['left', 'center', 'center', 'center']))
     ])   
 
-    fig.update_layout(height=35*count, width=300, margin=dict(l=1, r=0, b=0,t=1))
+    fig.update_layout(height=35*count, width=300, margin=dict(l=1, r=1, b=0,t=1))
     
     return fig
 
@@ -241,32 +229,34 @@ ban.markdown(" ")
 
 head.markdown(" ")
 head.markdown(" ")
-head.markdown("<h1 style='text-align: left; color: #008080; padding-left: 20px; font-size: 80px'><b>SA Curves & Global Bonds<b></h1>", unsafe_allow_html=True)
+#head.markdown("<h1 style='text-align: left; color: #008080; padding-left: 20px; font-size: 80px'><b>SA Curves & Global Bonds<b></h1>", unsafe_allow_html=True)
+head.markdown("<h1 style='text-align: left; color: gray; padding-left: 20px; font-size: 80px'><b>SA Curves & Global Bonds<b></h1>", unsafe_allow_html=True)
 
+#st.sidebar.markdown("<h1 style='text-align: left; color: gray; padding-left: 0px; font-size: 40px'><b>Cuve Tables<b></h1>", unsafe_allow_html=True)
 
-
-st_lottie(url_json,
-          # change the direction of our animation
-          reverse=True,
-          # height and width of animation
-          height=600,  
-          width=1300,
-          # speed of animation
-          speed=1,  
-          # means the animation will run forever like a gif, and not as a still image
-          loop=True,  
-          # quality of elements used in the animation, other values are "low" and "medium"
-          quality='high',
-           # THis is just to uniquely identify the animation
-          key='Car' 
-          )
+with st.sidebar:
+    st_lottie(url_json,
+            # change the direction of our animation
+            reverse=True,
+            # height and width of animation
+            height=200,  
+            width=200,
+            # speed of animation
+            speed=1,  
+            # means the animation will run forever like a gif, and not as a still image
+            loop=True,  
+            # quality of elements used in the animation, other values are "low" and "medium"
+            quality='high',
+            # THis is just to uniquely identify the animation
+            key='Car' 
+            )
 
 
 
 st.sidebar.markdown("<h1 style='text-align: left; color: gray; padding-left: 0px; font-size: 40px'><b>Cuve Tables<b></h1>", unsafe_allow_html=True)
 
-banner2 = Image.open('AC22.png')
-st.sidebar.image(banner2)
+#banner2 = Image.open('AC22.png')
+#st.sidebar.image(banner2)
 
 
 a, b = st.columns([1,1])
@@ -275,8 +265,8 @@ c, d = st.columns([1,1])
 
 st.sidebar.header("FRA Curve")
 st.sidebar.download_button(label="Download FRA Curve", data=fraDF, file_name='FRA_Curve.csv', mime='text/csv')
-fraCurve = marketCurves(fra, previousFra, previous_nameFra, currentFra, current_nameFra, 'Term', 'FRA Curve (MOM)')
-fraTable = curveTables(fra, previousFra, currentFra)
+fraCurve = marketCurves(fra, previous, previous_name, current, current_name, 'Term', 'FRA Curve (MOM)')
+fraTable = curveTables(fra, previous, current)
 #ftable, fcurve, frcurve = st.columns([1,3, 1])
 #ftable.plotly_chart(fraTable, use_column_width=True)
 #fcurve.plotly_chart(fraCurve, use_column_width=True)
@@ -453,7 +443,7 @@ def globalBondsTables(data):
                    align=['left', 'center', 'center', 'center']))
     ])   
 
-    fig.update_layout(height=35*count, width=300, margin=dict(l=1, r=0, b=0,t=1))
+    fig.update_layout(height=35*count, width=300, margin=dict(l=1, r=1, b=0,t=1))
     
     return fig
 
